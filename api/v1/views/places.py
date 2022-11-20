@@ -17,7 +17,7 @@ def place_by_city(city_id):
     data = storage.get(City, city_id)
     if data is None:
         abort(404)
-    return jsonify([data.to_dict() for place in city.places])
+    return jsonify([place.to_dict() for place in data.places])
 
 
 @app_views.route('/places/<place_id>', methods=['GET'],
@@ -42,7 +42,7 @@ def delete_places(place_id):
 
 @app_views.route('/cities/<city_id>/places', strict_slashes=False,
                  methods=['POST'])
-def create_place(city_id_id):
+def create_place(city_id):
     city = storage.get(City, city_id)
     if city is None:
         abort(404)
@@ -50,7 +50,7 @@ def create_place(city_id_id):
     body = request.get_json()
     if type(body) != dict:
         return abort(400, {'message': 'Not a JSON'})
-    if not res.get('user_id'):
+    if not body.get('user_id'):
         return abort(400, {'message': 'Missing user_id'})
     user = storage.get(User, body.get('user_id'))
     if user is None:
