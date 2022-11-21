@@ -11,7 +11,7 @@ from models.state import State
 
 
 @app_views.route('/states/<state_id>/cities', methods=['GET'],
-                strict_slashes=False)
+                 strict_slashes=False)
 def cities_by_state(state_id):
     """Retrieves the list of all city objects of a state"""
     state = storage.get(State, state_id)
